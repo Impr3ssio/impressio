@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - IMPRESSIO</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Your Profile</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/upload">Upload</a>
+      <a href="/cart">Cart</a>
+      <a href="/profile">Profile</a>
+      <% if (user) { %>
+        <a href="/logout"></a>
+      <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+      <% } %>
+    </nav>
+  </header>
+  <main>
+    <% if (user) { %>
+      <p>Welcome, <%= user.username %>!</p>
+      <a href="/logout" class="cta-button">Logout</a>
+    <% } else { %>
+      <p>You are not logged in. <a href="/login">Login</a> to view your profile.</p>
+    <% } %>
+    <a href="/order-history" class="cta-button">Order History</a></p>
+  </main>
+  <footer>
+    <p>&copy; 2025 IMPRESSIO. All rights reserved.</p>
+  </footer>
+</body>
+</html>

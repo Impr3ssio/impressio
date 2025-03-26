@@ -1,0 +1,112 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F1E3C8;
+    color: #672714;
+  }
+  
+  header {
+    background-color: #672714;
+    color: #F1E3C8;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  nav {
+    display: flex;
+    justify-content: center;
+    background-color: #672714;
+    padding: 10px;
+  }
+  
+  nav a {
+    color: #F1E3C8;
+    text-decoration: none;
+    margin: 0 15px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  nav a:hover {
+    background-color: #4a1c0e;
+  }
+  
+  main {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  footer {
+    background-color: #672714;
+    color: #F1E3C8;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  /* Button Styles */
+  .cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #672714;
+    color: #F1E3C8;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .cta-button:hover {
+    background-color: #4a1c0e; /* Darker shade for hover effect */
+  }
+  
+  .google-login-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #672714;
+    color: #F1E3C8;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .google-login-button:hover {
+    background-color: #4a1c0e; /* Darker shade for hover effect */
+  }
+  
+  /* Form Styles */
+  form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #F1E3C8;
+    border-radius: 5px;
+    
+  }
+  
+  input,
+  textarea,
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  button {
+    background-color: #672714;
+    color: #F1E3C8;
+    border: 1px solid #672714;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #4a1c0e;
+    color: #ddd;
+  }

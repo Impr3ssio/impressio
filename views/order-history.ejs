@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order History</title>
+  <link rel="stylesheet" href="/css/oh.css">
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <div class="container">
+    <h1>Order History</h1>
+    <% if (orders.length > 0) { %>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Total Price</th>
+            <th>Items</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% orders.forEach(order => { %>
+            <tr>
+              <td><%= order._id %></td>
+              <td><%= order.createdAt.toLocaleDateString() %></td>
+              <td>₹<%= order.totalPrice.toFixed(2) %></td>
+              <td>
+                <ul>
+                  <% order.items.forEach(item => { %>
+                    <li><%= item.filename %> (Volume: <%= item.volume.toFixed(2) %>, Price: ₹<%= item.price.toFixed(2) %>)</li>
+                  <% }) %>
+                </ul>
+              </td>
+              <td>Completed</td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>No orders found.</p>
+    <% } %>
+  </div>
+
+  <%- include('partials/footer') %>
+  <footer>
+    <p>&copy; 2025 IMPRESSIO. All rights reserved.</p>
+  </footer>
+</body>
+</html>

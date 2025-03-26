@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - IMPRESSIO</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Checkout</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/upload">Upload</a>
+      <a href="/cart">Cart</a>
+      <a href="/profile">Profile</a>
+       <!-- <% if (user) { %>
+        <a href="/logout"></a>
+      <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+      <% } %>-->
+    </nav>
+  </header>
+  <main>
+    <h2>Total Price: ₹<%= totalPrice.toFixed(2) %></h2>
+    <form id="payment-form">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" value="<%= user.name %>" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" value="<%= user.email %>" required>
+
+      <label for="address">Shipping Address:</label>
+      <input type="address" id="address" name="address" value="<%= user.address %>" required>
+
+      <label for="phone">Phone Number:</label>
+      <input type="text" id="phone" name="phone" value="<%= user.phone %>" required>
+
+      <button type="button" id="pay-button">Pay Now</button>
+    </form>
+  </main>
+  <footer>
+    <p>&copy; 2025 IMPRESSIO. All rights reserved.</p>
+  </footer>
+  <script>
+    document.getElementById('pay-button').addEventListener('click', async () => {
+      const response = await fetch('/create-order', { method: 'POST' });
+      const order = await response.json();
+
+      const options = {
+        key: 'rzp_test_oxKUjxLHGgTaZZ', // Replace with your Razorpay Key ID
+        amount: order.amount,
+        currency: order.currency,
+        order_id: order.id,
+        name: 'IMPRESSIO',
+        description: 'Payment for 3D Printing',
+        handler: function (response) {
+          alert('Payment successful!');
+          window.location.href = '/';
+        },
+        prefill: {
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          contact: document.getElementById('phone').value,
+        },
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    });
+  </script>
+</body>
+</html>

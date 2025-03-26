@@ -1,0 +1,27 @@
+<%- include('partials/header') %>
+<main>
+  <h1>Your Orders</h1>
+  <% if (orders.length > 0) { %>
+    <ul>
+      <% orders.forEach(order => { %>
+        <li>
+          <strong>Order ID:</strong> <%= order._id %><br>
+          <strong>Date:</strong> <%= order.createdAt.toLocaleString() %><br>
+          <strong>Total Price:</strong> $<%= order.totalPrice.toFixed(2) %><br>
+          <strong>Items:</strong>
+          <ul>
+            <% order.items.forEach(item => { %>
+              <li>
+                <%= item.filename %> - $<%= item.price.toFixed(2) %> (Volume: <%= item.volume.toFixed(2) %> cm³, Material: <%= item.material %>)
+              </li>
+            <% }) %>
+          </ul>
+        </li>
+        <hr>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No orders found.</p>
+  <% } %>
+</main>
+<%- include('partials/footer') %>

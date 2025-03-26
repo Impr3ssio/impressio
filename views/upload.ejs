@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload STL Files - IMPRESSIO</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Upload STL Files</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/upload">Upload</a>
+      <a href="/cart">Cart</a>
+      <a href="/profile">Profile</a>
+     <!-- <% if (user) { %>
+        <a href="/logout"></a>
+      <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+      <% } %>-->
+    </nav>
+  </header>
+  <main>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <input type="file" name="stlFiles" id="stlFiles" accept=".stl" multiple required>
+      <!-- Material Selection Dropdown -->
+      <label for="material">Select Material:</label>
+      <select name="material" id="material" required>
+        <option value="PLA">PLA</option>
+        <option value="ABS">ABS</option>
+        <option value="PETG">PETG</option>
+        <option value="TPU">TPU</option>
+        <option value="Resin">Resin</option>
+      </select>
+      <button type="submit">Add To Cart</button>
+    </form>
+  </main>
+  <footer>
+    <p>&copy; 2025 IMPRESSIO. All rights reserved.</p>
+  </footer>
+</body>
+</html>

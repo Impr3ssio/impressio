@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - IMPRESSIO</title>
+  <link rel="stylesheet" href="/css/cart.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+
+    .add-btn {
+      color: #333;
+      font-size: large;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin: auto;
+    }
+    .sub-btn{
+      color: #333;
+      font-size: x-large;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin: auto;
+    }
+    .del-btn{
+      color: #333;
+      font-size: small;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin: auto;
+    }
+    .form-inline {
+      display: inline-block;
+      margin-left: 10px;
+    }
+    .quantity-controls {
+      display: inline-flex;
+      align-items: center;
+    }
+    .quantity-input {
+      width: 40px;
+      text-align: center;
+      margin: 0 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      text-align: center;
+    }
+  </style>
+  <script>
+    function updateQuantity(formId, change) {
+      const form = document.getElementById(formId);
+      const quantityInput = form.querySelector('input[name="quantity"]');
+      let newQuantity = parseInt(quantityInput.value) + change;
+      
+// If decreasing from 1, submit the delete form instead
+if (newQuantity < 1) {
+      const deleteForm = form.nextElementSibling; // Get the adjacent delete form
+      if (deleteForm && deleteForm.tagName === 'FORM') {
+        deleteForm.submit();
+        return;
+      }
+    }
+
+      if (newQuantity < 1) newQuantity = 1;
+      quantityInput.value = newQuantity;
+      form.submit();
+    }
+    
+    function handleMaterialChange(formId) {
+      document.getElementById(formId).submit();
+    }
+    
+    function handleQuantityChange(formId) {
+      document.getElementById(formId).submit();
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Your Cart</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/upload">Upload</a>
+      <a href="/cart">Cart</a>
+      <a href="/profile">Profile</a>
+    </nav>
+  </header>
+  <main>
+    <% if (cartItems && cartItems.length > 0) { %>
+      <table>
+        <% cartItems.forEach(function(item, index) { %>
+          <tr>
+            <td>
+              <strong><%= item.filename %></strong> - 
+              Volume: <%= item.volume.toFixed(2) %> cm³ - 
+              Price: ₹<%= (item.price).toFixed(2) %> * <%= item.quantity %>
+            </td>
+            <td>
+              <form id="form<%= index %>" action="/cart/update/<%= index %>" method="POST" class="form-inline">
+                <select name="material" onchange="handleMaterialChange('form<%= index %>')">
+                  <option value="PLA" <%= item.material === 'PLA' ? 'selected' : '' %>>PLA</option>
+                  <option value="ABS" <%= item.material === 'ABS' ? 'selected' : '' %>>ABS</option>
+                  <option value="PETG" <%= item.material === 'PETG' ? 'selected' : '' %>>PETG</option>
+                  <option value="TPU" <%= item.material === 'TPU' ? 'selected' : '' %>>TPU</option>
+                  <option value="Resin" <%= item.material === 'Resin' ? 'selected' : '' %>>Resin</option>
+                </select>
+                
+                <div class="quantity-controls">
+                  
+                    <% if (item.quantity === 1) { %>
+                      <button type="button" class="del-btn" onclick="updateQuantity('form<%= index %>', -1)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                    <% } else { %>
+                      <button type="button" class="sub-btn" onclick="updateQuantity('form<%= index %>', -1)">
+                      -
+                    </button>
+                    <% } %>
+                 
+                  
+                  <input type="number" 
+                         name="quantity" 
+                         value="<%= item.quantity %>" 
+                         min="1" 
+                         class="quantity-input"
+                         onchange="handleQuantityChange('form<%= index %>')">
+                  
+                  <button type="button" class="add-btn" onclick="updateQuantity('form<%= index %>', 1)">
+                    +
+                  </button>
+                </div>
+              </form>
+              <form action="/cart/delete/<%= index %>" method="POST" style="display: none;"></form>
+            </td>
+          </tr>
+        <% }); %>
+      </table>
+      <p><strong>Total Price: ₹<%= totalPrice.toFixed(2) %></strong></p>
+      <a href="/checkout" class="cta-button">Proceed to Checkout</a>
+    <% } else { %>
+      <p>Your cart is empty</p>
+      <a href="/upload" class="cta-button">Upload Files</a>
+    <% } %>
+  </main>
+</body>
+</html>

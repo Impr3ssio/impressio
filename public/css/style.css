@@ -1,0 +1,205 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F1E3C8;
+  color: #672714;
+}
+
+header {
+  background-color: #672714;
+  color: #F1E3C8;
+  padding: 20px;
+  text-align: center;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  background-color: #672714;
+  padding: 10px;
+}
+
+nav a {
+  color: #F1E3C8;
+  text-decoration: none;
+  margin: 0 15px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+nav a:hover {
+  background-color: #4a1c0e; /* Darker shade for hover effect */
+}
+
+main {
+  padding: 20px;
+  text-align: center;
+}
+
+footer {
+  background-color: #672714;
+  color: #F1E3C8;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Button Styles */
+.cta-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #672714;
+  color: #F1E3C8;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #4a1c0e; /* Darker shade for hover effect */
+}
+
+.google-login-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #672714;
+  color: #F1E3C8;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.google-login-button:hover {
+  background-color: #4a1c0e; /* Darker shade for hover effect */
+}
+
+/* Form Styles */
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #F1E3C8;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input,
+textarea,
+button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #672714;
+  color: #F1E3C8;
+  border: 1px solid #672714;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4a1c0e; /* Darker shade for hover effect */
+}
+
+/* Banner Styles */
+.banner {
+  background-image: url('../images/IMPR3SSIO[1].png'); /* Replace with your image path */
+  background-size: cover; /* Ensures the image covers the entire banner */
+  background-position: center; /* Centers the image */
+  color: #F1E3C8; /* Text color */
+  text-align: center; /* Centers the text */
+  padding: 100px 0px; /* Adds space inside the banner */
+  margin-bottom: 20px; /* Adds space below the banner */
+}
+
+.banner h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.banner p {
+  font-size: 1.25rem;
+  margin-bottom: 30px;
+}
+.banner {
+  width: 100%;
+  aspect-ratio: 4 / 1; /* Adjust the ratio (e.g., 4:1 for a wide banner) */
+  overflow: hidden;
+}
+
+.banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.banner .cta-button {
+  background-color: #672714;
+  color: #F1E3C8;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.banner .cta-button:hover {
+  background-color: #4a1c0e; /* Darker shade for hover effect */
+}
+
+/* Order History Styles */
+.order-history {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #F1E3C8;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-history h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #672714;
+}
+
+.order-history table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.order-history th,
+.order-history td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.order-history th {
+  background-color: #672714;
+  color: #F1E3C8;
+}
+
+.order-history tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.order-history tr:hover {
+  background-color: #f1f1f1;
+}
+
+.order-history .no-orders {
+  text-align: center;
+  color: #672714;
+  font-size: 1.2rem;
+}
