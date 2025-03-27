@@ -52,7 +52,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI || 'mongodb://adminBJ:Gd@jb2014@82.112.238.93:27017/test?authSource=admin', {
+mongoose.connect(process.env.MONGO_URI || 'mongodb://adminShubh:_K1ll3r_@127.0.0.1:27017/test?authSource=admin', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
