@@ -10,11 +10,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const flash = require('connect-flash');
 const Razorpay = require('razorpay');
 (async () => {
-<<<<<<< HEAD
   const { STLLoader } = await import('three/examples/jsm/loaders/STLLoader.js');
-=======
-    const { STLLoader } = await import('three/examples/jsm/loaders/STLLoader.js');
->>>>>>> 616fef709443623a03650bbd1d0f21491e3ddaef
 })();
 const fs = require('fs');
 const mongoose = require('mongoose');
