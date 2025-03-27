@@ -3,7 +3,9 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { STLLoader } = require('three/examples/jsm/loaders/STLLoader.js');
+(async () => {
+    const { STLLoader } = await import('three/examples/jsm/loaders/STLLoader.js');
+})();
 const Cart = require('../models/Cart');
 const ensureAuthenticated = require('../middleware/ensureAuthenticated');
 
