@@ -220,6 +220,8 @@ app.get('/', (req, res) => {
   res.render('index', { user: req.user, messages: req.flash() });
 });
 
+app.use('/uploads', express.static('uploads'));
+
 app.get('/upload', ensureAuthenticated, (req, res) => {
   res.render('upload', { user: req.user, messages: req.flash() });
 });

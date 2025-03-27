@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const uploadDir = 'uploads/';
 (async () => {
     const { STLLoader } = await import('three/examples/jsm/loaders/STLLoader.js');
 })();
