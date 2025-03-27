@@ -99,7 +99,7 @@ passport.use(new LocalStrategy(
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID || '496804778634-7c5vk81hc5qr5til6i7tmbu485rca4pe.apps.googleusercontent.com',
   clientSecret: process.env.GOOGLE_CLIENT_SECRET || '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',
-  callbackURL: 'http://localhost:3000/auth/google/callback',
+  callbackURL: 'https://impr3ssio.in//auth/google/callback',
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     let user = await User.findOne({ googleId: profile.id });
