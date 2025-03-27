@@ -9,7 +9,9 @@ const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const flash = require('connect-flash');
 const Razorpay = require('razorpay');
-const { STLLoader } = require('three/examples/jsm/loaders/STLLoader.js');
+(async () => {
+    const { STLLoader } = await import('three/examples/jsm/loaders/STLLoader.js');
+})();
 const fs = require('fs');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
