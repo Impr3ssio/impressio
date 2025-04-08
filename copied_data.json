@@ -1,0 +1,34 @@
+[
+  {
+    "_id": {
+      "$oid": "67eaca325a21d4a1b42a16e9"
+    },
+    "userId": {
+      "$oid": "67eaca245a21d4a1b42a16e0"
+    },
+    "items": [
+      {
+        "filename": "EyeHolderV1.stl",
+        "volume": 0.5000819066144578,
+        "price": 2.480406256807711,
+        "quantity": 2,
+        "material": "PLA",
+        "_id": {
+          "$oid": "67f5661e633e366c052941fb"
+        }
+      },
+      {
+        "filename": "BatCat_Mask.stl",
+        "volume": 42.287918894756196,
+        "price": 209.74807771799072,
+        "quantity": 1,
+        "material": "TPU",
+        "_id": {
+          "$oid": "67f5687d19320eb27ffb07b1"
+        }
+      }
+    ],
+    "totalPrice": 214.70889023160612,
+    "__v": 8
+  }
+]

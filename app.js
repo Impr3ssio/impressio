@@ -52,7 +52,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI || 'mongodb://adminShubh:_K1ll3r_@127.0.0.1:27017/test?authSource=admin', {
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -328,9 +328,6 @@ app.post('/checkout', ensureAuthenticated, async (req, res) => {
 
     // Debugging: Log the saved order
     console.log('Order saved:', order);
-
-    // Clear the cart
-    await Cart.deleteOne({ userId: req.user._id });
 
     req.flash('success', `Order placed successfully! Total Price: ₹${cart.totalPrice.toFixed(2)}`);
     res.redirect('/');

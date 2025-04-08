@@ -29,6 +29,7 @@ router.post('/checkout', ensureAuthenticated, async (req, res) => {
       req.flash('error', 'No items in cart.');
       return res.redirect('/cart');
     }
+    console.log('🛒 Cart Items:', cart.items);
 
     // Save order details
     const order = new Order({
@@ -43,7 +44,8 @@ router.post('/checkout', ensureAuthenticated, async (req, res) => {
     await order.save();
 
     // Debugging: Log the saved order
-    console.log('Order saved:', order);
+    const savedOrder = await order.save(); // Save order in the database
+    console.log('✅ Order successfully saved:', savedOrder);
 
     // Clear the cart
     await Cart.deleteOne({ userId: req.user._id });
