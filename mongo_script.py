@@ -29,36 +29,30 @@ def copy_and_export():
     skipped_count = 0
     duplicated_and_new_id_count = 0
 
-    # Get the last inserted document in target collection (based on ObjectId timestamp)
-    last_doc = target.find_one(sort=[('_id', -1)])
-    last_items = last_doc.get('items') if last_doc else None
-
     for doc in documents:
-        existing_doc = target.find_one({'_id': doc['_id']})
+        user_id = doc.get('userId')
 
-        if not existing_doc:
-            # No conflict, insert with copiedAt
-            doc['copiedAt'] = datetime.utcnow()
-            target.insert_one(doc)
-            inserted_count += 1
-        else:
-            # Conflict exists — check if items match the most recent document
-            if doc.get('items') == last_items:
-                skipped_count += 1
-            else:
-                # Items differ → insert as new with new _id and timestamp
-                doc['_id'] = ObjectId()
-                doc['copiedAt'] = datetime.utcnow()
-                target.insert_one(doc)
-                duplicated_and_new_id_count += 1
+        # Find the most recent document from this user
+        last_user_doc = target.find_one({'userId': user_id}, sort=[('_id', -1)])
 
-    print(f"Inserted: {inserted_count}, Duplicated w/ New ID: {duplicated_and_new_id_count}, Skipped: {skipped_count}")
+        # Compare items
+        if last_user_doc and last_user_doc.get('items') == doc.get('items'):
+            skipped_count += 1
+            continue
 
-    # Export source documents to JSON for reference
+        # Insert new doc with new ID and timestamp
+        doc['_id'] = ObjectId()  # force new ID
+        doc['copiedAt'] = datetime.utcnow()
+        target.insert_one(doc)
+        duplicated_and_new_id_count += 1
+
+    print(f"Inserted: {duplicated_and_new_id_count}, Skipped (duplicate items for same user): {skipped_count}")
+
+    # Export source documents to JSON
     with open(EXPORT_FILE, 'w', encoding='utf-8') as f:
         f.write(dumps(documents, indent=2))
 
-    print(f"Exported source documents to '{EXPORT_FILE}'.\n")
+    print(f"Exported source documents to '{EXPORT_FILE}'.")
 
 # Schedule job every 10 seconds
 schedule.every(10).seconds.do(copy_and_export)
