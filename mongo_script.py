@@ -7,7 +7,7 @@ from datetime import datetime
 import schedule
 
 # MongoDB config
-MONGO_URI = "mongodb://localhost:27017/"
+MONGO_URI = "mongodb://adminShubh:_K1ll3r_@82.112.238.93:27017/?authSource=admin"
 DATABASE_NAME = "test"
 SOURCE_COLLECTION = "carts"
 TARGET_COLLECTION = "orders"
