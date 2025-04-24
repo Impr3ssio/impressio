@@ -26,29 +26,24 @@ def copy_and_export():
         return
 
     inserted_count = 0
-    skipped_count = 0
-    duplicated_and_new_id_count = 0
 
     for doc in documents:
-        user_id = doc.get('userId')
+        original_id = doc['_id']  # keep the original ID for deletion
 
-        # Find the most recent document from this user
-        last_user_doc = target.find_one({'userId': user_id}, sort=[('_id', -1)])
-
-        # Compare items
-        if last_user_doc and last_user_doc.get('items') == doc.get('items'):
-            skipped_count += 1
-            continue
-
-        # Insert new doc with new ID and timestamp
-        doc['_id'] = ObjectId()  # force new ID
+        # Assign new _id and timestamp
+        doc['_id'] = ObjectId()
         doc['copiedAt'] = datetime.utcnow()
+
+        # Insert into target collection
         target.insert_one(doc)
-        duplicated_and_new_id_count += 1
+        inserted_count += 1
 
-    print(f"Inserted: {duplicated_and_new_id_count}, Skipped (duplicate items for same user): {skipped_count}")
+        # Delete from source collection
+        source.delete_one({'_id': original_id})
 
-    # Export source documents to JSON
+    print(f"Inserted and removed from carts: {inserted_count}")
+
+    # Export original carts before deletion
     with open(EXPORT_FILE, 'w', encoding='utf-8') as f:
         f.write(dumps(documents, indent=2))
 
