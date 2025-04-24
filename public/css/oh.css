@@ -1,104 +1,117 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #F1E3C8;
-    color: #672714;
-  }
-  header {
-    background-color: #672714;
-    color: #F1E3C8;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  nav {
-    display: flex;
-    justify-content: center;
-    background-color: #672714;
-    padding: 10px;
-  }
-  
-  nav a {
-    color: #F1E3C8;
-    text-decoration: none;
-    margin: 0 15px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-  }
-  
-  nav a:hover {
-    background-color: #4a1c0e; /* Darker shade for hover effect */
-  }
-  
-  
+  font-family: 'Noto Sans JP', Arial, sans-serif; /* Japanese-inspired font */
+  margin: 0;
+  padding: 0;
+  background-color: #1a1a1a; /* Dark background */
+  color: #e8d8b8; /* Creamy text color */
+}
+
+header {
+  background-color: #1a1a1a;
+  color: #e8d8b8;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #8b0000; /* Dark red accent */
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  background-color: #1a1a1a;
+  padding: 15px;
+  border-top: 1px solid #8b0000;
+  border-bottom: 1px solid #8b0000;
+}
+
+nav a {
+  color: #e8d8b8;
+  text-decoration: none;
+  margin: 0 20px;
+  padding: 8px 15px;
+  border-radius: 3px;
+  transition: all 0.3s;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+nav a:hover {
+  color: #8b0000;
+  background-color: rgba(139, 0, 0, 0.1);
+}
   .container {
     max-width: 900px;
     margin: 20px auto;
     padding: 20px;
-    background: #fff;
+    background: #000;
+    border-color: #8b0000;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  h1 {
-    text-align: center;
-    color: #672714;
-    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0);
   }
   
   .table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #F1E3C8;
+    background-color: #000;
+    border: 1px #8b0000;
     border-radius: 5px;
     overflow: hidden;
   }
   
   .table th, .table td {
     padding: 12px;
-    border-bottom: 1px solid #672714;
+    border-bottom: 1px solid #8b0000;
+    border-top: 1px solid #8b0000;
     text-align: center;
   }
   
   .table th {
-    background-color: #672714;
+    background-color: #000;
+    border-color: 1px #8b0000;
     color: #F1E3C8;
   }
   
-  .table tr:nth-child(even) {
-    background-color: #E2C9A0;
-  }
-  
   .table tr:hover {
-    background-color: #D4B080;
+    background-color: #0c0c0c;
   }
   
   ul {
     list-style-type: none;
     padding: 0;
   }
+
   footer {
-    background-color: #672714;
-    color: #F1E3C8;
+    background-color: #1a1a1a;
+    color: #e8d8b8;
     text-align: center;
-    padding: 10px;
-    position: fixed;
+    padding: 15px;
+    position: static !important; /* or 'relative' if you prefer */  
     bottom: 0;
     width: 100%;
+    border-top: 1px solid #8b0000;
+    font-size: 0.9rem;
+  }
+  
+  h1{
+    text-align: center;
+    font-weight: 300;
+    letter-spacing: 2px;
   }
   
   /* Button Styles */
   .cta-button {
     display: inline-block;
-    padding: 10px 20px;
-    background-color: #672714;
-    color: #F1E3C8;
+    padding: 12px 25px;
+    background-color: transparent;
+    color: #e8d8b8;
     text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    border-radius: 0;
+    border: 1px solid #8b0000;
+    transition: all 0.3s;
+    letter-spacing: 1px;
+    font-weight: 300;
   }
   
   .cta-button:hover {
-    background-color: #4a1c0e; }
+    background-color: #8b0000;
+    color: #e8d8b8;
+  }
