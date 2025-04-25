@@ -113,7 +113,7 @@ header {
 
 .nav-link::after {
   content: '';
-  position: absolute;
+  position: relative;
   bottom: 0;
   left: 50%;
   width: 0;
@@ -130,7 +130,7 @@ header {
 
 .nav-link:hover,
 .nav-link.active {
-  color: var(--transition);
+  color: var(--transition);;
 }
 
 /* Hero Slideshow */
@@ -431,7 +431,6 @@ header {
     grid-template-columns: 1fr;
   }
 }
-/* Add these to your existing CSS */
 
 /* Improved Typography */
 h1, h2, h3, h4 {
