@@ -206,6 +206,16 @@
       text-align: center;
       border-top: 1px solid var(--border-color);
     }
+    .phone-link, .email-link {
+  color: var(--light-text);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.phone-link:hover, .email-link:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
   </style>
 </head>
 <body>
@@ -252,21 +262,55 @@
         <div class="info-card">
           <i class="fas fa-envelope info-icon"></i>
           <h3 class="info-title">Email Us</h3>
-          <p class="info-text">contact@impr3ssio.com</p>
+          <p class="info-text">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=impr3ssio@gmail.com" 
+            target="_blank"
+            class="email-link">
+            <i class="fab fa-google"></i> impr3ssio@gmail.com
+            </a>
+          </p>
         </div>
+        
         
         <div class="info-card">
           <i class="fas fa-phone info-icon"></i>
           <h3 class="info-title">Call Us</h3>
-          <p class="info-text">+1 (555) 123-4567</p>
+          <p class="info-text">
+            <a href="tel:+919038202707" class="phone-link">+91 9038202707</a>
+          </p>
         </div>
         
         <div class="info-card">
           <i class="fas fa-map-marker-alt info-icon"></i>
           <h3 class="info-title">Visit Us</h3>
-          <p class="info-text">123 Print Street<br>Tech City, TC 10001</p>
+          <p class="info-text">Villa 30 Silver Oak Prive<br>Bablatala, Rajarhat</p>
         </div>
       </div>
+      <script>
+        function sendEmail() {
+          const email = '.';
+          const subject = '3D Printing Inquiry';
+          
+          // Try to open mail client
+          try {
+            window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+            
+            // Fallback if mailto doesn't work
+            setTimeout(() => {
+              if(!document.hidden) {
+                document.getElementById('email-fallback').style.display = 'inline';
+                navigator.clipboard.writeText(email).then(() => {
+                  alert('Email address copied to clipboard!');
+                });
+              }
+            }, 500);
+          } catch(e) {
+            navigator.clipboard.writeText(email);
+            alert('Email address copied to clipboard!');
+          }
+          return false;
+        }
+      </script>
     </section>
   </main>
 
