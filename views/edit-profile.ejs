@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile - IMPRESSIO</title>
+  
+  <!-- CSS with fallback -->
+  <link rel="stylesheet" href="/css/style.css" onerror="loadFallbackStyles()">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- Inline Critical CSS as last resort -->
+  <style id="critical-css">
+    /* CSS Variables */
+    :root {
+      --dark-bg: #121212;
+      --darker-bg: #0a0a0a;
+      --light-text: #f0e6d2;
+      --accent-color: #c8102e;
+      --accent-hover: #e63946;
+      --border-color: #2a2a2a;
+      --card-bg: #1e1e1e;
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Critical Navigation Styles */
+    header.main-header {
+      background-color: var(--darker-bg);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .nav-list {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .nav-link {
+      color: var(--light-text);
+      text-decoration: none;
+      padding: 0.5rem 1.2rem;
+      margin: 0 0.5rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      position: relative;
+      transition: var(--transition);
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 1px;
+      background: var(--accent-color);
+      transition: var(--transition);
+    }
+    
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+      left: 0;
+    }
+    
+    .nav-link.active {
+      color: var(--transition);
+    }
+
+    /* Profile Form Styles */
+    .profile-form {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 300;
+      color: var(--light-text);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: rgba(30, 30, 30, 0.5);
+      border: 1px solid var(--border-color);
+      color: var(--light-text);
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.2);
+    }
+    
+    .form-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with forced active state -->
+  <header class="main-header">
+    <div class="header-container">
+      <h1 class="logo">IMPR3SSIO</h1>
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="/upload" class="nav-link">Upload</a></li>
+          <li><a href="/profile" class="nav-link active">Profile</a></li>
+          <li><a href="/contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="profile-form">
+      <h2 class="section-title">Edit Your Profile</h2>
+      
+      <% if (messages.error) { %>
+        <div class="alert alert-error"><%= messages.error %></div>
+      <% } %>
+      <% if (messages.success) { %>
+        <div class="alert alert-success"><%= messages.success %></div>
+      <% } %>
+      
+      <form action="/profile/edit" method="POST">
+        <div class="form-group">
+          <label for="name" class="form-label">Full Name</label>
+          <input type="text" id="name" name="name" class="form-control" value="<%= user.name %>" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" name="email" class="form-control" value="<%= user.email %>" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="address" class="form-label">Address</label>
+          <input type="text" id="address" name="address" class="form-control" value="<%= user.address %>" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone" class="form-label">Phone Number</label>
+          <input type="tel" id="phone" name="phone" class="form-control" value="<%= user.phone %>" required>
+        </div>
+        
+        <div class="form-actions">
+          <a href="/profile" class="cta-button outline">Cancel</a>
+          <button type="submit" class="cta-button">Save Changes</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    // Fallback CSS loader
+    function loadFallbackStyles() {
+      console.log('Main stylesheet failed to load, using inline styles');
+      document.getElementById('critical-css').disabled = false;
+    }
+
+    // Active link management
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set active link
+      const currentPath = window.location.pathname;
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === currentPath || 
+            (currentPath.startsWith('/profile') && link.getAttribute('href') === '/profile')) {
+          link.classList.add('active');
+        }
+      });
+
+      // Verify CSS loading
+      setTimeout(() => {
+        const header = document.querySelector('header.main-header');
+        if (window.getComputedStyle(header).backgroundColor === 'rgba(0, 0, 0, 0)') {
+          loadFallbackStyles();
+        }
+      }, 100);
+    });
+  </script>
+</body>
+</html>

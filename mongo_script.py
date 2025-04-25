@@ -49,8 +49,8 @@ def copy_and_export():
 
     print(f"Exported source documents to '{EXPORT_FILE}'.")
 
-# Schedule job every 10 seconds
-schedule.every(10).seconds.do(copy_and_export)
+# Schedule job every 5 minutes
+schedule.every(5).minutes.do(copy_and_export)
 
 print("Starting periodic MongoDB copy/export task (Ctrl+C to stop)...")
 while True:

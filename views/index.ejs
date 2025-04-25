@@ -3,154 +3,398 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IMPR3SSIO - Home</title>
+  <title>IMPR3SSIO - Premium 3D Printing Services</title>
+  <meta name="description" content="Upload your STL files and get instant quotations for high-quality 3D printing services with fast turnaround times.">
   <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Additional styles to complement your existing CSS */
+    .step-icon {
+      font-size: 2rem;
+      color: var(--accent-color);
+      margin-top: 1rem;
+      transition: var(--transition);
+    }
+    
+    .process-step:hover .step-icon {
+      transform: scale(1.2);
+      color: var(--accent-hover);
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .cta-button.outline {
+      background: transparent;
+      border: 1px solid var(--light-text);
+      color: var(--light-text);
+    }
+    
+    .cta-button.outline:hover {
+      background: var(--light-text);
+      color: var(--dark-bg);
+    }
+    
+    .feature-title, .usecase-title {
+      position: relative;
+      padding-bottom: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    
+    .feature-title::after, .usecase-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: var(--accent-color);
+    }
+    
+    .feature-card:hover .feature-title::after,
+    .usecase-card:hover .usecase-title::after {
+      width: 70px;
+      background: var(--accent-hover);
+    }
+    
+    .section-container {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .section-container::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(200,16,46,0.1) 0%, rgba(200,16,46,0) 70%);
+      z-index: -1;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>IMPR3SSIO</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/upload">Upload</a>
-      <a href="/cart">Cart</a>
-      <a href="/profile">Profile</a>
-       <!-- <% if (user) { %>
-        <a href="/logout"></a>
-      <% } else { %>
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
-      <% } %>-->
-    </nav>
-
-   <!-- Slideshow container -->
-<div class="slideshow-container">
-
-  <!-- Full-width images with number and caption text -->
-  <div class="mySlides fade">
-    <div class="numbertext">1 / 3</div>
-    <img src="/images/1.jpg" style="width:100%">
-    <div class="slide-content">
-      <h2>Premium 3D Printing Services</h2>
-      <p>High-quality prints with a wide range of materials to choose from</p>
-      <a href="/upload" class="cta-button">Upload Your Design</a>
+  <!-- Header Section -->
+  <header class="main-header">
+    <div class="header-container">
+      <h1 class="logo">IMPR3SSIO</h1>
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="nav-link active">Home</a></li>
+          <li><a href="/upload" class="nav-link">Upload</a></li>
+          <li><a href="/cart" class="nav-link">Cart</a></li>
+          <li><a href="/profile" class="nav-link">Profile</a></li>
+          <!-- <% if (user) { %>
+          <li><a href="/logout" class="nav-link">Logout</a></li>
+          <% } else { %>
+          <li><a href="/login" class="nav-link">Login</a></li>
+          <li><a href="/register" class="nav-link">Register</a></li>
+          <% } %> -->
+        </ul>
+      </nav>
     </div>
-  </div>
-
-  <div class="mySlides fade">
-    <div class="numbertext">2 / 3</div>
-    <img src="/images/2.jpg" style="size:100%">
-    <div class="slide-content">
-      <h2>Fast Turnaround Times</h2>
-      <p>Get your projects completed quickly without compromising quality</p>
-      <a href="/upload" class="cta-button">Get a Quote</a>
-    </div>
-  </div>
-
-  <div class="mySlides fade">
-    <div class="numbertext">3 / 3</div>
-    <img src="/images/3.jpg" style="width:100%">
-    <div class="slide-content">
-      <h2>Custom Solutions</h2>
-      <p>Tailored printing solutions for your specific needs</p>
-      <a href="/upload" class="cta-button">Start Your Project</a>
-    </div>
-  </div>
-
-  <!-- Next and previous buttons -->
-  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-  <a class="next" onclick="plusSlides(1)">&#10095;</a>
-</div>
-<br>
-
-<!-- The dots/circles -->
-<div style="text-align:center">
-  <span class="dot" onclick="currentSlide(1)"></span>
-  <span class="dot" onclick="currentSlide(2)"></span>
-  <span class="dot" onclick="currentSlide(3)"></span>
-</div>
   </header>
-  <main>
-    <h2>Welcome to IMPR3SSIO</h2>
-    <p>Upload your STL files and get a quotation for 3D printing.</p>
+
+  <!-- Hero Slideshow -->
+  <section class="hero-section">
+    <div class="slideshow-container">
+      <!-- Slide 1 -->
+      <div class="mySlides fade">
+        <div class="slide-image" style="background-image: url('/images/1.jpg')"></div>
+        <div class="slide-content">
+          <h2 class="slide-title fade-in">Precision 3D Printing<br>For Your Vision</h2>
+          <p class="slide-text fade-in delay-1">From prototype to production, we deliver exceptional quality with fast turnaround times</p>
+          <a href="/upload" class="cta-button fade-in delay-2">
+            <i class="fas fa-cloud-upload-alt"></i> Upload Your Design
+          </a>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="mySlides fade">
+        <div class="slide-image" style="background-image: url('/images/2.jpg')"></div>
+        <div class="slide-content">
+          <h2 class="slide-title fade-in">Fast Turnaround Times</h2>
+          <p class="slide-text fade-in delay-1">Get your projects completed quickly without compromising quality</p>
+          <a href="/upload" class="cta-button fade-in delay-2">
+            <i class="fas fa-bolt"></i> Get a Quote
+          </a>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="mySlides fade">
+        <div class="slide-image" style="background-image: url('/images/3.jpg')"></div>
+        <div class="slide-content">
+          <h2 class="slide-title fade-in">Custom Solutions</h2>
+          <p class="slide-text fade-in delay-1">Tailored printing solutions for your specific needs</p>
+          <a href="/upload" class="cta-button fade-in delay-2">
+            <i class="fas fa-magic"></i> Start Your Project
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigation Arrows -->
+      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    
+    <!-- Slide Indicators -->
+    <div class="slide-indicators">
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+      <div class="section-container">
+        <h2 class="section-title fade-in">Welcome to IMPR3SSIO</h2>
+        <p class="section-text fade-in delay-1">Your premier destination for high-quality 3D printing services. Upload your STL files and receive instant quotations with our advanced pricing calculator.</p>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+      <div class="section-container">
+        <h2 class="section-title fade-in">Your Gateway to Exceptional 3D Printing!</h2>
+        <p class="section-text fade-in delay-1">At <strong>Impr3ssio</strong>, we believe that innovation should be accessible to everyone. Whether you're a hobbyist, a professional designer, or a business looking to bring your ideas to life, we're here to turn your imagination into reality with our cutting-edge 3D printing technology.</p>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="section-container">
+        <h2 class="section-title fade-in">Why Choose Impr3ssio?</h2>
+        <div class="features-grid">
+          <div class="feature-card fade-in delay-1">
+            <i class="fas fa-award feature-icon"></i>
+            <h3 class="feature-title">Unmatched Quality</h3>
+            <p class="feature-text">Industrial-grade printers deliver precision and durability with stunning surface finishes that meet professional standards.</p>
+          </div>
+          <div class="feature-card fade-in delay-2">
+            <i class="fas fa-palette feature-icon"></i>
+            <h3 class="feature-title">Material Variety</h3>
+            <p class="feature-text">Choose from PLA, ABS, PETG, TPU, resin, nylon, and metal-infused filaments for any application.</p>
+          </div>
+          <div class="feature-card fade-in delay-3">
+            <i class="fas fa-tags feature-icon"></i>
+            <h3 class="feature-title">Affordable Pricing</h3>
+            <p class="feature-text">Competitive and transparent pricing based on material volume with no hidden costs.</p>
+          </div>
+          <div class="feature-card fade-in delay-1">
+            <i class="fas fa-stopwatch feature-icon"></i>
+            <h3 class="feature-title">Fast Turnaround</h3>
+            <p class="feature-text">Most orders completed within 3-5 business days with rush options available.</p>
+          </div>
+          <div class="feature-card fade-in delay-2">
+            <i class="fas fa-headset feature-icon"></i>
+            <h3 class="feature-title">Expert Support</h3>
+            <p class="feature-text">Our team of 3D printing specialists is available to assist with design optimization and material selection.</p>
+          </div>
+          <div class="feature-card fade-in delay-3">
+            <i class="fas fa-shipping-fast feature-icon"></i>
+            <h3 class="feature-title">Reliable Shipping</h3>
+            <p class="feature-text">Carefully packaged prints with worldwide shipping options and tracking.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="usecases-section">
+      <div class="section-container">
+        <h2 class="section-title fade-in">What Can You Create?</h2>
+        <div class="usecase-grid">
+          <div class="usecase-card fade-in delay-1">
+            <i class="fas fa-cubes usecase-icon"></i>
+            <h3 class="usecase-title">Prototypes</h3>
+            <p class="usecase-text">Bring your ideas to life with accurate and functional prototypes for product development.</p>
+          </div>
+          <div class="usecase-card fade-in delay-2">
+            <i class="fas fa-gem usecase-icon"></i>
+            <h3 class="usecase-title">Custom Designs</h3>
+            <p class="usecase-text">Create unique, personalized items like jewelry, phone cases, or home decor.</p>
+          </div>
+          <div class="usecase-card fade-in delay-3">
+            <i class="fas fa-cogs usecase-icon"></i>
+            <h3 class="usecase-title">Functional Parts</h3>
+            <p class="usecase-text">Produce durable components for machinery, tools, or DIY projects.</p>
+          </div>
+          <div class="usecase-card fade-in delay-1">
+            <i class="fas fa-paint-brush usecase-icon"></i>
+            <h3 class="usecase-title">Artistic Creations</h3>
+            <p class="usecase-text">Design and print intricate sculptures or artistic pieces with fine details.</p>
+          </div>
+          <div class="usecase-card fade-in delay-2">
+            <i class="fas fa-graduation-cap usecase-icon"></i>
+            <h3 class="usecase-title">Educational Models</h3>
+            <p class="usecase-text">Enhance learning with detailed 3D-printed models for schools and universities.</p>
+          </div>
+          <div class="usecase-card fade-in delay-3">
+            <i class="fas fa-briefcase-medical usecase-icon"></i>
+            <h3 class="usecase-title">Medical Applications</h3>
+            <p class="usecase-text">Create anatomical models, surgical guides, and custom medical devices.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+      <div class="section-container">
+        <h2 class="section-title fade-in">How It Works</h2>
+        <div class="process-steps">
+          <div class="process-step fade-in">
+            <span class="step-number">1</span>
+            <div class="step-content">
+              <h3 class="step-title">Upload Your Design</h3>
+              <p class="step-text">Share your 3D model file in STL, OBJ, or other supported formats</p>
+              <i class="fas fa-file-upload step-icon"></i>
+            </div>
+          </div>
+          <div class="process-step fade-in delay-1">
+            <span class="step-number">2</span>
+            <div class="step-content">
+              <h3 class="step-title">Choose Your Material</h3>
+              <p class="step-text">Select from our wide range of materials and finishes</p>
+              <i class="fas fa-box-open step-icon"></i>
+            </div>
+          </div>
+          <div class="process-step fade-in delay-2">
+            <span class="step-number">3</span>
+            <div class="step-content">
+              <h3 class="step-title">Get a Quote</h3>
+              <p class="step-text">Receive a competitive price quote instantly</p>
+              <i class="fas fa-calculator step-icon"></i>
+            </div>
+          </div>
+          <div class="process-step fade-in delay-3">
+            <span class="step-number">4</span>
+            <div class="step-content">
+              <h3 class="step-title">We Print & Deliver</h3>
+              <p class="step-text">Your high-quality product delivered to your doorstep</p>
+              <i class="fas fa-truck step-icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="section-container">
+        <h2 class="cta-title fade-in">Ready to Transform Your Ideas into Reality?</h2>
+        <p class="cta-text fade-in delay-1">Get an instant quote and start printing today</p>
+        <div class="cta-buttons fade-in delay-2">
+          <a href="/upload" class="cta-button large">
+            <i class="fas fa-cloud-upload-alt"></i> Upload Design
+          </a>
+          <a href="/contact" class="cta-button large outline">
+            <i class="fas fa-envelope"></i> Contact Us
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
-  <!--<div class="container">
-    <h1>Welcome to Impr3ssio – Your Gateway to Exceptional 3D Printing!</h1>
-    <p>At <strong>Impr3ssio</strong>, we believe that innovation should be accessible to everyone. Whether you're a hobbyist, a professional designer, or a business looking to bring your ideas to life, we’re here to turn your imagination into reality. With cutting-edge 3D printing technology, a wide range of materials, and a commitment to quality, we’re your trusted partner in creating exceptional 3D-printed products.</p>
 
-    <h2>Why Choose Impr3ssio?</h2>
-    <ul>
-        <li><strong>Unmatched Quality:</strong> We use state-of-the-art 3D printing technology to ensure precision, durability, and stunning finishes.</li>
-        <li><strong>Wide Range of Materials:</strong> Choose from PLA, ABS, PETG, TPU, resin, nylon, and even metal-infused filaments.</li>
-        <li><strong>Affordable Pricing:</strong> Competitive and transparent pricing for the best value.</li>
-        <li><strong>Fast Turnaround Times:</strong> Efficient service without compromising on quality.</li>
-        <li><strong>Customer-Centric Approach:</strong> Our team is here to assist you every step of the way.</li>
-    </ul>
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <div class="footer-about fade-in">
+        <h3 class="footer-logo">IMPR3SSIO</h3>
+        <p class="footer-about-text">Premium 3D printing services with instant quoting and fast turnaround times.</p>
+      </div>
+      <div class="footer-links fade-in delay-1">
+        <h4 class="footer-heading">Quick Links</h4>
+        <a href="/" class="footer-link">Home</a>
+        <a href="/upload" class="footer-link">Upload</a>
+        <a href="/pricing" class="footer-link">Pricing</a>
+        <a href="/materials" class="footer-link">Materials</a>
+      </div>
+      <div class="footer-links fade-in delay-2">
+        <h4 class="footer-heading">Company</h4>
+        <a href="/about" class="footer-link">About Us</a>
+        <a href="/contact" class="footer-link">Contact</a>
+        <a href="/blog" class="footer-link">Blog</a>
+        <a href="/careers" class="footer-link">Careers</a>
+      </div>
+      <div class="footer-social fade-in delay-3">
+        <h4 class="footer-heading">Connect With Us</h4>
+        <div class="social-icons">
+          <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <p class="copyright fade-in delay-1">&copy; 2025 Impr3ssio. All rights reserved.</p>
+    </div>
+  </footer>
 
-    <h2>What Can You Create with Impr3ssio?</h2>
-    <p>The possibilities are endless! Here are just a few examples:</p>
-    <ul>
-        <li><strong>Prototypes:</strong> Bring your ideas to life with accurate and functional prototypes.</li>
-        <li><strong>Custom Designs:</strong> Create unique, personalized items like jewelry, phone cases, or home decor.</li>
-        <li><strong>Functional Parts:</strong> Produce durable components for machinery, tools, or DIY projects.</li>
-        <li><strong>Artistic Creations:</strong> Design and print intricate sculptures or artistic pieces.</li>
-        <li><strong>Educational Models:</strong> Enhance learning with detailed 3D-printed models for schools or universities.</li>
-    </ul>
+  <script>
+    // Slideshow functionality
+    let slideIndex = 1;
+    showSlides(slideIndex);
 
-    <h2>How It Works</h2>
-    <ol>
-        <li><strong>Upload Your Design:</strong> Share your 3D model file with us in a supported format (STL, OBJ, etc.).</li>
-        <li><strong>Choose Your Material:</strong> Select from our wide range of materials to match your project’s needs.</li>
-        <li><strong>Get a Quote:</strong> Receive a competitive price quote based on your design and material choice.</li>
-        <li><strong>We Print & Deliver:</strong> Sit back and relax while we handle the rest. Your high-quality 3D-printed product will be delivered to your doorstep.</li>
-    </ol>
-
-    <h2>Join the Impr3ssio Community</h2>
-    <p>At Impr3ssio, we’re more than just a 3D printing service – we’re a community of creators, innovators, and dreamers. Follow us on social media for inspiration, tips, and updates on the latest in 3D printing technology.</p>
-
-    <p>Ready to bring your ideas to life? </p><p>
-
-    <h3>Impr3ssio – Where Imagination Meets Precision.</h3>
-</div> -->
-
-<footer>
-    <p>&copy; 2025 Impr3ssio. All rights reserved.</p>
-</footer>
-<script>
-  let slideIndex = 1;
-  showSlides(slideIndex);
-
-  function plusSlides(n) {
-    showSlides(slideIndex += n);
-  }
-
-  function currentSlide(n) {
-    showSlides(slideIndex = n);
-  }
-
-  function showSlides(n) {
-    let i;
-    let slides = document.getElementsByClassName("mySlides");
-    let dots = document.getElementsByClassName("dot");
-
-    if (n > slides.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = slides.length}
-
-    for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
     }
 
-    for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
     }
 
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
-  }
+    function showSlides(n) {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
 
-  // Auto slideshow
-  setInterval(function() {
-    plusSlides(1);
-  }, 5000);
-</script>
+      if (n > slides.length) {slideIndex = 1}
+      if (n < 1) {slideIndex = slides.length}
+
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+    }
+
+    // Auto slideshow
+    setInterval(function() {
+      plusSlides(1);
+    }, 5000);
+
+    // Animation on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      
+      const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      fadeElements.forEach(element => {
+        fadeObserver.observe(element);
+      });
+    });
+  </script>
 </body>
 </html>

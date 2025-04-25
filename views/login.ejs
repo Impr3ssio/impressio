@@ -5,38 +5,155 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - IMPRESSIO</title>
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Login-specific styles that complement your main CSS */
+    .auth-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .auth-form {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin: 2rem 0;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 300;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: rgba(30, 30, 30, 0.5);
+      border: 1px solid var(--border-color);
+      color: var(--light-text);
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.2);
+    }
+    
+    .auth-divider {
+      text-align: center;
+      margin: 1.5rem 0;
+      position: relative;
+    }
+    
+    .auth-divider::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--border-color);
+      z-index: -1;
+    }
+    
+    .auth-divider span {
+      background: var(--dark-bg);
+      padding: 0 1rem;
+    }
+    
+    .auth-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    
+    .alert {
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    .alert-error {
+      background-color: rgba(244, 67, 54, 0.2);
+      border: 1px solid var(--error-color);
+      color: var(--error-color);
+    }
+    
+    .alert-success {
+      background-color: rgba(76, 175, 80, 0.2);
+      border: 1px solid var(--success-color);
+      color: var(--success-color);
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Login</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/login">Login</a>
-      <a href="/register">Register</a>
-    </nav>
+    <div class="header-container">
+      <h1 class="logo">IMPR3SSIO</h1>
+      <nav>
+        <ul class="nav-list">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="/login" class="nav-link active">Login</a></li>
+          <li><a href="/register" class="nav-link">Register</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
-  <main>
-    <% if (messages.error) { %>
-      <div class="alert alert-error"><%= messages.error %></div>
-    <% } %>
-    <% if (messages.success) { %>
-      <div class="alert alert-success"><%= messages.success %></div>
-    <% } %>
-    <form action="/login" method="POST">
-      <label for="email">Email Id:</label>
-      <input type="email" id="email" name="email" required>
 
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-
-      <button type="submit">Login</button>
-    </form>
-    <p>Or</p>
-    <a href="/auth/google" class="google-login-button">Login with Google</a>
-    <p>Don't have an account? <a href="/register">Register</a></p>
+  <main class="container">
+    <section class="auth-container">
+      <h2 class="section-title">Login to Your Account</h2>
+      
+      <% if (messages.error) { %>
+        <div class="alert alert-error"><%= messages.error %></div>
+      <% } %>
+      <% if (messages.success) { %>
+        <div class="alert alert-success"><%= messages.success %></div>
+      <% } %>
+      
+      <form action="/login" method="POST" class="auth-form">
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        
+        <button type="submit" class="cta-button large" style="width: 100%;">
+          Login
+        </button>
+      </form>
+      
+      <div class="auth-divider">
+        <span>Or</span>
+      </div>
+      
+      <a href="/auth/google" class="google-login-button" style="display: block; text-align: center;">
+        <i class="fab fa-google"></i> Login with Google
+      </a>
+      
+      <div class="auth-footer">
+        <p>Don't have an account? <a href="/register" class="text-link">Register here</a></p>
+      </div>
+    </section>
   </main>
-  <footer>
-    <p>&copy; 2025 IMPRESSIO. All rights reserved.</p>
+
+  <footer class="main-footer">
+    <div class="footer-container">
+      <p class="copyright">&copy; 2025 Impr3ssio. All rights reserved.</p>
+    </div>
   </footer>
 </body>
 </html>

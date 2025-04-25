@@ -1,11 +1,278 @@
-<%- include('partials/header') %>
-<main>
-  <h1>Contact Us</h1>
-  <form action="/contact" method="POST">
-    <input type="text" name="name" placeholder="Your Name" required>
-    <input type="email" name="email" placeholder="Your Email" required>
-    <textarea name="message" placeholder="Your Message" required></textarea>
-    <button type="submit">Send</button>
-  </form>
-</main>
-<%- include('partials/footer') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - IMPR3SSIO</title>
+  <!-- Load required assets directly in the template -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Define all CSS variables */
+    :root {
+      --dark-bg: #121212;
+      --darker-bg: #0a0a0a;
+      --light-text: #f0e6d2;
+      --accent-color: #c8102e;
+      --accent-hover: #e63946;
+      --border-color: #2a2a2a;
+      --card-bg: #1e1e1e;
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--light-text);
+      line-height: 1.6;
+    }
+
+    /* Contact page specific styles */
+    .contact-container {
+      padding: 4rem 0;
+      min-height: 100vh;
+    }
+
+    .contact-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    @media (min-width: 992px) {
+      .contact-section {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .contact-content {
+      padding: 2rem;
+    }
+
+    .contact-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      position: relative;
+      font-weight: 400;
+    }
+
+    .contact-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--accent-color);
+    }
+
+    .contact-subtitle {
+      font-size: 1.1rem;
+      color: rgba(240, 230, 210, 0.8);
+      margin-bottom: 2rem;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 300;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background-color: rgba(30, 30, 30, 0.5);
+      border: 1px solid var(--border-color);
+      color: var(--light-text);
+      border-radius: 4px;
+      font-family: 'Noto Sans JP', sans-serif;
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.2);
+    }
+
+    textarea.form-control {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      background-color: transparent;
+      color: var(--light-text);
+      padding: 0.8rem 2.5rem;
+      border-radius: 30px;
+      border: 1px solid var(--accent-color);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .submit-btn:hover {
+      background-color: var(--accent-color);
+      transform: translateY(-2px);
+    }
+
+    .contact-info {
+      padding: 2rem;
+    }
+
+    .info-card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .info-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-color);
+    }
+
+    .info-icon {
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+    }
+
+    .info-title {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-text {
+      color: rgba(240, 230, 210, 0.7);
+      line-height: 1.6;
+    }
+
+    /* Simple navigation for this standalone page */
+    .simple-nav {
+      background-color: var(--darker-bg);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .simple-nav .logo {
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: 3px;
+      color: var(--light-text);
+      text-decoration: none;
+    }
+
+    .simple-nav-links a {
+      color: var(--light-text);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .simple-nav-links a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Simple footer */
+    .simple-footer {
+      background-color: var(--darker-bg);
+      padding: 2rem;
+      text-align: center;
+      border-top: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+  <!-- Simple navigation -->
+  <nav class="simple-nav">
+    <a href="/" class="logo">IMPR3SSIO</a>
+    <div class="simple-nav-links">
+      <a href="/">Home</a>
+      <a href="/upload">Upload</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Contact content -->
+  <main class="contact-container">
+    <section class="contact-section">
+      <div class="contact-content">
+        <h1 class="contact-title">Get In Touch</h1>
+        <p class="contact-subtitle">Have questions about our 3D printing services? Fill out the form below.</p>
+        
+        <form class="contact-form" action="/contact" method="POST">
+          <div class="form-group">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="john@example.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="message" class="form-label">Your Message</label>
+            <textarea id="message" name="message" class="form-control" rows="6" placeholder="Tell us about your project..." required></textarea>
+          </div>
+          
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </form>
+      </div>
+      
+      <div class="contact-info">
+        <div class="info-card">
+          <i class="fas fa-envelope info-icon"></i>
+          <h3 class="info-title">Email Us</h3>
+          <p class="info-text">contact@impr3ssio.com</p>
+        </div>
+        
+        <div class="info-card">
+          <i class="fas fa-phone info-icon"></i>
+          <h3 class="info-title">Call Us</h3>
+          <p class="info-text">+1 (555) 123-4567</p>
+        </div>
+        
+        <div class="info-card">
+          <i class="fas fa-map-marker-alt info-icon"></i>
+          <h3 class="info-title">Visit Us</h3>
+          <p class="info-text">123 Print Street<br>Tech City, TC 10001</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Simple footer -->
+  <footer class="simple-footer">
+    <p>&copy; 2025 Impr3ssio. All rights reserved.</p>
+  </footer>
+</body>
+</html>

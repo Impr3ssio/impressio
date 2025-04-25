@@ -8,6 +8,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const flash = require('connect-flash');
+// At the TOP of your app.js with other requires:
+
+require('dotenv').config();
 const Razorpay = require('razorpay');
 (async () => {
   const { STLLoader } = await import('three/examples/jsm/loaders/STLLoader.js');
@@ -68,7 +71,7 @@ app.use('/order', orderRoutes);
 // Import Mongoose models
 const User = require('./models/User');
 const Cart = require('./models/Cart');
-const Order = require('./models/Order');
+
 
 // Passport configuration
 // Replace your existing LocalStrategy with this:
@@ -337,6 +340,28 @@ app.post('/checkout', ensureAuthenticated, async (req, res) => {
     res.redirect('/cart');
   }
 });
+const Order = require('./models/Order'); // Make sure you have this model
+
+// Add this with your other routes
+app.get('/orders', ensureAuthenticated, async (req, res) => {
+  try {
+    const orders = await Order.find({ userId: req.user._id })
+      .sort({ createdAt: -1 })
+      .exec();
+
+    res.render('orders', {
+      user: req.user,
+      orders,
+      currentUrl: '/orders',
+      messages: req.flash()
+    });
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    req.flash('error', 'Failed to load orders');
+    res.redirect('/profile');
+  }
+});
+
 
 app.get('/profile', ensureAuthenticated, (req, res) => {
   res.render('profile', { user: req.user, messages: req.flash() });
@@ -500,6 +525,158 @@ app.post('/cart/update-material/:index', ensureAuthenticated, async (req, res) =
     req.flash('error', 'Failed to update material.');
     res.redirect('/cart');
   }
+});
+// Reorder functionality
+app.post('/reorder/:orderId', ensureAuthenticated, async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.orderId);
+    
+    if (!order || order.userId.toString() !== req.user._id.toString()) {
+      req.flash('error', 'Order not found or unauthorized');
+      return res.redirect('/order-history');
+    }
+
+    let cart = await Cart.findOne({ userId: req.user._id });
+    if (!cart) {
+      cart = new Cart({ userId: req.user._id, items: [], totalPrice: 0 });
+    }
+
+    // Add all items from the order to the cart
+    order.items.forEach(item => {
+      cart.items.push({
+        filename: item.filename,
+        volume: item.volume,
+        price: item.price,
+        material: item.material,
+        quantity: item.quantity
+      });
+      cart.totalPrice += item.price * item.quantity;
+    });
+
+    await cart.save();
+    req.flash('success', 'Items from order have been added to your cart');
+    res.redirect('/cart');
+  } catch (error) {
+    console.error('Error during reorder:', error);
+    req.flash('error', 'Failed to reorder items');
+    res.redirect('/order-history');
+  }
+});
+app.use(express.static('public')); // Must be before routes
+// Edit Profile Routes
+app.get('/profile/edit', ensureAuthenticated, (req, res) => {
+  res.render('edit-profile', { 
+    user: req.user, 
+    currentUrl: '/profile/edit', // Add this line
+    messages: req.flash() 
+  });
+});
+
+app.post('/profile/edit', ensureAuthenticated, async (req, res) => {
+  const { name, email, address, phone } = req.body;
+  
+  try {
+    const user = await User.findById(req.user._id);
+    
+    if (!user) {
+      req.flash('error', 'User not found');
+      return res.redirect('/profile');
+    }
+
+    // Update user fields
+    user.name = name;
+    user.email = email;
+    user.address = address;
+    user.phone = phone;
+
+    await user.save();
+    
+    req.flash('success', 'Profile updated successfully');
+    res.redirect('/profile');
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    req.flash('error', 'Failed to update profile');
+    res.redirect('/profile/edit');
+  }
+});
+app.use(express.static('public'));
+// Add to your existing app.js
+const nodemailer = require('nodemailer');
+
+// Configure email transporter (example using Gmail)
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+
+
+// Configure email transporter ONCE at the top level
+const mailTransporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+// Then later in your routes:
+app.post('/contact', async (req, res) => {
+  const { name, email, subject, message } = req.body;
+
+  // Validation
+  if (!name || !email || !message) {
+    req.flash('error', 'Name, email and message are required');
+    return res.redirect('/contact');
+  }
+
+  try {
+    // Email to admin
+    await mailTransporter.sendMail({
+      from: `"${name}" <${email}>`,
+      to: process.env.ADMIN_EMAIL,
+      subject: subject || `New message from ${name}`,
+      text: message,
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>From:</strong> ${name} (${email})</p>
+        ${subject ? `<p><strong>Subject:</strong> ${subject}</p>` : ''}
+        <p><strong>Message:</strong></p>
+        <p>${message.replace(/\n/g, '<br>')}</p>
+      `
+    });
+
+    // Confirmation to user
+    await mailTransporter.sendMail({
+      from: `"IMPR3SSIO Support" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: 'We received your message!',
+      html: `
+        <h2>Thank you for contacting us, ${name}!</h2>
+        <p>We've received your message and will respond soon.</p>
+        <p><strong>Your message:</strong></p>
+        <p>${message.replace(/\n/g, '<br>')}</p>
+      `
+    });
+
+    req.flash('success', 'Message sent successfully!');
+    res.redirect('/contact');
+  } catch (error) {
+    console.error('Email error:', error);
+    req.flash('error', 'Failed to send message. Please try again.');
+    res.redirect('/contact');
+  }
+});
+// Add this with your other routes in app.js
+app.get('/contact', (req, res) => {
+  res.render('contact', {
+    user: req.user,
+    messages: req.flash(),
+    currentUrl: '/contact'
+  });
 });
 // Start the server
 app.listen(port, () => {

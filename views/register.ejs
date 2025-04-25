@@ -5,48 +5,210 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register - IMPRESSIO</title>
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Registration-specific styles */
+    .auth-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .auth-form {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin: 2rem 0;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 300;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: rgba(30, 30, 30, 0.5);
+      border: 1px solid var(--border-color);
+      color: var(--light-text);
+      border-radius: 4px;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.2);
+    }
+    
+    .password-strength {
+      height: 4px;
+      background: var(--border-color);
+      margin-top: 0.5rem;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    
+    .password-strength-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--accent-color);
+      transition: width 0.3s ease;
+    }
+    
+    .auth-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    
+    .alert {
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    .alert-error {
+      background-color: rgba(244, 67, 54, 0.2);
+      border: 1px solid var(--error-color);
+      color: var(--error-color);
+    }
+    
+    .alert-success {
+      background-color: rgba(76, 175, 80, 0.2);
+      border: 1px solid var(--success-color);
+      color: var(--success-color);
+    }
+    
+    .input-with-icon {
+      position: relative;
+    }
+    
+    .input-with-icon i {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #aaa;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Register</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/login">Login</a>
-      <a href="/register">Register</a>
-    </nav>
+    <div class="header-container">
+      <h1 class="logo">IMPR3SSIO</h1>
+      <nav>
+        <ul class="nav-list">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="/login" class="nav-link">Login</a></li>
+          <li><a href="/register" class="nav-link active">Register</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
-  <main>
-    <% if (messages.error) { %>
-      <div class="alert alert-error"><%= messages.error %></div>
-    <% } %>
-    <% if (messages.success) { %>
-      <div class="alert alert-success"><%= messages.success %></div>
-    <% } %>
-    <form action="/register" method="POST">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required>
 
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-
-      <label for="name">Full Name:</label>
-      <input type="text" id="name" name="name" required>
-
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
-
-      <label for="address">Address:</label>
-      <input type="address" id="address" name="address" required>
-
-      <label for="phone">Phone Number:</label>
-      <input type="text" id="phone" name="phone" required>
-
-      <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="/login">Login</a></p>
+  <main class="container">
+    <section class="auth-container">
+      <h2 class="section-title">Create Your Account</h2>
+      
+      <% if (messages.error) { %>
+        <div class="alert alert-error"><%= messages.error %></div>
+      <% } %>
+      <% if (messages.success) { %>
+        <div class="alert alert-success"><%= messages.success %></div>
+      <% } %>
+      
+      <form action="/register" method="POST" class="auth-form">
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="username" name="username" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="name" class="form-label">Full Name</label>
+          <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+        
+        <div class="form-group input-with-icon">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" name="password" class="form-control" required>
+          <i class="fas fa-eye" id="togglePassword"></i>
+          <div class="password-strength">
+            <div class="password-strength-bar" id="passwordStrength"></div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="address" class="form-label">Address</label>
+          <input type="text" id="address" name="address" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone" class="form-label">Phone Number</label>
+          <input type="tel" id="phone" name="phone" class="form-control" required>
+        </div>
+        
+        <button type="submit" class="cta-button large" style="width: 100%;">
+          Register
+        </button>
+      </form>
+      
+      <div class="auth-footer">
+        <p>Already have an account? <a href="/login" class="text-link">Login here</a></p>
+      </div>
+    </section>
   </main>
-  <footer>
-    <p>&copy; 2025 IMPRESSIO. All rights reserved.</p>
+
+  <footer class="main-footer">
+    <div class="footer-container">
+      <p class="copyright">&copy; 2025 Impr3ssio. All rights reserved.</p>
+    </div>
   </footer>
+
+  <script>
+    // Password visibility toggle
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+    
+    togglePassword.addEventListener('click', function() {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      this.classList.toggle('fa-eye-slash');
+    });
+    
+    // Password strength indicator
+    password.addEventListener('input', function() {
+      const strengthBar = document.getElementById('passwordStrength');
+      const strength = calculatePasswordStrength(this.value);
+      strengthBar.style.width = strength + '%';
+      strengthBar.style.backgroundColor = 
+        strength < 30 ? 'var(--error-color)' : 
+        strength < 70 ? 'var(--warning-color)' : 
+        'var(--success-color)';
+    });
+    
+    function calculatePasswordStrength(password) {
+      let strength = 0;
+      if (password.length > 0) strength += 10;
+      if (password.length >= 8) strength += 30;
+      if (/[A-Z]/.test(password)) strength += 20;
+      if (/[0-9]/.test(password)) strength += 20;
+      if (/[^A-Za-z0-9]/.test(password)) strength += 20;
+      return Math.min(strength, 100);
+    }
+  </script>
 </body>
 </html>

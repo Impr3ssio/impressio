@@ -1,27 +1,522 @@
 <%- include('partials/header') %>
-<main>
-  <h1>Your Orders</h1>
-  <% if (orders.length > 0) { %>
-    <ul>
-      <% orders.forEach(order => { %>
-        <li>
-          <strong>Order ID:</strong> <%= order._id %><br>
-          <strong>Date:</strong> <%= order.createdAt.toLocaleString() %><br>
-          <strong>Total Price:</strong> $<%= order.totalPrice.toFixed(2) %><br>
-          <strong>Items:</strong>
-          <ul>
-            <% order.items.forEach(item => { %>
-              <li>
-                <%= item.filename %> - $<%= item.price.toFixed(2) %> (Volume: <%= item.volume.toFixed(2) %> cm³, Material: <%= item.material %>)
-              </li>
-            <% }) %>
-          </ul>
-        </li>
-        <hr>
-      <% }) %>
-    </ul>
-  <% } else { %>
-    <p>No orders found.</p>
-  <% } %>
+
+<main class="container">
+  <section class="section-container">
+    <h2 class="section-title">Your Order History</h2>
+    
+    <% if (orders.length > 0) { %>
+      <div class="orders-grid">
+        <% orders.forEach(order => { %>
+          <div class="order-card">
+            <div class="order-header">
+              <div>
+                <span class="order-id">Order #<%= order._id.toString().slice(-8).toUpperCase() %></span>
+                <span class="order-date"><i class="far fa-calendar-alt"></i> <%= order.createdAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></span>
+              </div>
+              <div class="order-total">
+                ₹<%= order.totalPrice.toFixed(2) %>
+              </div>
+            </div>
+            
+            <div class="order-items">
+              <% order.items.forEach(item => { %>
+                <div class="order-item">
+                  <div class="item-info">
+                    <h4 class="item-name"><%= item.filename %></h4>
+                    <div class="item-details">
+                      <span class="detail-pill"><i class="fas fa-cube"></i> <%= item.volume.toFixed(2) %> cm³</span>
+                      <span class="detail-pill"><i class="fas fa-layer-group"></i> <%= item.material %></span>
+                      <span class="detail-pill"><i class="fas fa-rupee-sign"></i> <%= item.price.toFixed(2) %></span>
+                    </div>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+            
+            <div class="order-footer">
+              <span class="status-badge status-completed">
+                <i class="fas fa-check-circle"></i> Completed
+              </span>
+              <a href="#" class="order-action">View Details</a>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="empty-state">
+        <i class="fas fa-box-open"></i>
+        <h3>No Orders Yet</h3>
+        <p>You haven't placed any orders yet. Start your 3D printing journey today!</p>
+        <a href="/upload" class="cta-button">Upload Your First Design</a>
+      </div>
+    <% } %>
+  </section>
 </main>
+
 <%- include('partials/footer') %>
+
+<style>
+  /* Order History Styles */
+  .orders-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .order-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    transition: var(--transition);
+  }
+  
+  .order-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .order-id {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: var(--accent-color);
+    margin-right: 1rem;
+  }
+  
+  .order-date {
+    font-size: 0.9rem;
+    color: #aaa;
+  }
+  
+  .order-total {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--accent-color);
+  }
+  
+  .order-items {
+    padding: 1rem 1.5rem;
+  }
+  
+  .order-item {
+    padding: 1rem 0;
+    border-bottom: 1px dashed var(--border-color);
+  }
+  
+  .order-item:last-child {
+    border-bottom: none;
+  }
+  
+  .item-name {
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+  
+  .item-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .detail-pill {
+    background: rgba(139, 0, 0, 0.1);
+    color: var(--light-text);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  
+  .order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+    background: rgba(30, 30, 30, 0.5);
+  }
+  
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 400;
+  }
+  
+  .status-completed {
+    background: rgba(76, 175, 80, 0.1);
+    color: var(--success-color);
+  }
+  
+  .order-action {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: var(--transition);
+  }
+  
+  .order-action:hover {
+    text-decoration: underline;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 3rem 0;
+  }
+  
+  .empty-state i {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+  }
+  
+  .empty-state h3 {
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+  }
+  
+  .empty-state p {
+    color: #aaa;
+    margin-bottom: 1.5rem;
+  }
+</style><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Orders - IMPR3SSIO</title>
+  <!-- Load CSS directly -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    /* CSS Variables */
+    :root {
+      --dark-bg: #121212;
+      --darker-bg: #0a0a0a;
+      --light-text: #f0e6d2;
+      --accent-color: #c8102e;
+      --accent-hover: #e63946;
+      --border-color: #2a2a2a;
+      --card-bg: #1e1e1e;
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Header styles copied to be self-contained */
+    .main-header {
+      background-color: var(--darker-bg);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: 3px;
+      color: var(--light-text);
+      text-decoration: none;
+    }
+    
+    .nav-list {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .nav-link {
+      color: var(--light-text);
+      text-decoration: none;
+      padding: 0.5rem 1.2rem;
+      margin: 0 0.5rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      position: relative;
+      transition: var(--transition);
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 1px;
+      background: var(--accent-color);
+      transition: var(--transition);
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+      left: 0;
+    }
+    
+    .nav-link.active {
+      color: var(--transition);
+    }
+
+    /* Orders page specific styles */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      min-height: calc(100vh - 200px);
+    }
+    
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--accent-color);
+    }
+    
+    .alert {
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .alert-info {
+      background: rgba(23, 162, 184, 0.2);
+      border: 1px solid rgba(23, 162, 184, 0.5);
+      color: #17a2b8;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      background-color: transparent;
+      color: var(--light-text);
+      text-decoration: none;
+      border-radius: 30px;
+      border: 1px solid var(--accent-color);
+      transition: var(--transition);
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+    
+    .cta-button:hover {
+      background-color: var(--accent-color);
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    .orders-list {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .order-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: var(--transition);
+    }
+    
+    .order-card:hover {
+      border-color: var(--accent-color);
+      transform: translateY(-2px);
+    }
+    
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .order-date {
+      color: rgba(240, 230, 210, 0.7);
+      font-size: 0.9rem;
+    }
+    
+    .order-items {
+      margin-bottom: 1.5rem;
+    }
+    
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed rgba(240, 230, 210, 0.1);
+    }
+    
+    .order-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.1rem;
+      margin: 1rem 0;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .order-status {
+      margin: 1rem 0;
+    }
+    
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .status-badge.completed {
+      background: rgba(40, 167, 69, 0.2);
+      color: #28a745;
+    }
+    
+    .status-badge.processing {
+      background: rgba(255, 193, 7, 0.2);
+      color: #ffc107;
+    }
+    
+    .status-badge.cancelled {
+      background: rgba(220, 53, 69, 0.2);
+      color: #dc3545;
+    }
+    
+    .cta-button.small {
+      padding: 0.5rem 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    /* Footer styles */
+    .main-footer {
+      background-color: var(--darker-bg);
+      padding: 2rem;
+      text-align: center;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .copyright {
+      color: rgba(240, 230, 210, 0.7);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Self-contained header -->
+  <header class="main-header">
+    <div class="header-container">
+      <a href="/" class="logo">IMPR3SSIO</a>
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="/upload" class="nav-link">Upload</a></li>
+          <li><a href="/orders" class="nav-link active">Orders</a></li>
+          <li><a href="/profile" class="nav-link">Profile</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="section-title">Your Orders</h1>
+    
+    <% if (orders.length === 0) { %>
+      <div class="alert alert-info">
+        You haven't placed any orders yet.
+      </div>
+      <a href="/upload" class="cta-button">Start a New Order</a>
+    <% } else { %>
+      <div class="orders-list">
+        <% orders.forEach(order => { %>
+          <div class="order-card">
+            <div class="order-header">
+              <h3>Order #<%= order._id.toString().slice(-6).toUpperCase() %></h3>
+              <span class="order-date">
+                <%= order.createdAt.toLocaleDateString() %>
+              </span>
+            </div>
+            
+            <div class="order-details">
+              <div class="order-items">
+                <% order.items.forEach(item => { %>
+                  <div class="order-item">
+                    <span class="item-name"><%= item.filename %></span>
+                    <span class="item-price">₹<%= item.price.toFixed(2) %></span>
+                  </div>
+                <% }) %>
+              </div>
+              
+              <div class="order-total">
+                <strong>Total:</strong>
+                <span>₹<%= order.totalPrice.toFixed(2) %></span>
+              </div>
+              
+              <div class="order-status">
+                Status: <span class="status-badge <%= order.status %>">
+                  <%= order.status %>
+                </span>
+              </div>
+            </div>
+            
+            <a href="/orders/<%= order._id %>" class="cta-button small">
+              View Details
+            </a>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+  </main>
+
+  <!-- Simple footer -->
+  <footer class="main-footer">
+    <p class="copyright">&copy; 2025 Impr3ssio. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Set active link dynamically
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentPath = window.location.pathname;
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === currentPath) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

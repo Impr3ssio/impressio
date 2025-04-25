@@ -5,34 +5,154 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile - IMPRESSIO</title>
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Profile-specific styles */
+    .profile-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .profile-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      color: white;
+      font-size: 3rem;
+    }
+    
+    .profile-username {
+      font-size: 1.8rem;
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+    
+    .profile-email {
+      color: #aaa;
+      margin-bottom: 2rem;
+    }
+    
+    .profile-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    
+    .profile-section {
+      background: var(--card-bg);
+      border-radius: 8px;
+      padding: 2rem;
+      margin: 2rem 0;
+      border: 1px solid var(--border-color);
+    }
+    
+    .section-title {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent-color);
+    }
+    
+    .not-logged-in {
+      text-align: center;
+      padding: 3rem 0;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Your Profile</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/upload">Upload</a>
-      <a href="/cart">Cart</a>
-      <a href="/profile">Profile</a>
-      <% if (user) { %>
-        <a href="/logout"></a>
-      <% } else { %>
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
-      <% } %>
-    </nav>
+    <div class="header-container">
+      <h1 class="logo">IMPR3SSIO</h1>
+      <nav>
+        <ul class="nav-list">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="/upload" class="nav-link">Upload</a></li>
+          <li><a href="/cart" class="nav-link">Cart</a></li>
+          <li><a href="/profile" class="nav-link active">Profile</a></li>
+          <% if (user) { %>
+            <li><a href="/logout" class="nav-link">Logout</a></li>
+          <% } else { %>
+            <li><a href="/login" class="nav-link">Login</a></li>
+            <li><a href="/register" class="nav-link">Register</a></li>
+          <% } %>
+        </ul>
+      </nav>
+    </div>
   </header>
-  <main>
-    <% if (user) { %>
-      <p>Welcome, <%= user.username %>!</p>
-      <a href="/logout" class="cta-button">Logout</a>
-    <% } else { %>
-      <p>You are not logged in. <a href="/login">Login</a> to view your profile.</p>
-    <% } %>
-    <a href="/order-history" class="cta-button">Order History</a></p>
+
+  <main class="container">
+    <section class="profile-container">
+      <% if (user) { %>
+        <div class="profile-header">
+          <div class="profile-avatar">
+            <%= user.username.charAt(0).toUpperCase() %>
+          </div>
+          <h2 class="profile-username"><%= user.username %></h2>
+          <p class="profile-email"><%= user.email %></p>
+        </div>
+        
+        <div class="profile-section">
+          <h3 class="section-title">Account Details</h3>
+          <div class="form-group">
+            <label>Full Name</label>
+            <p><%= user.name || 'Not specified' %></p>
+          </div>
+          <div class="form-group">
+            <label>Shipping Address</label>
+            <p><%= user.address || 'Not specified' %></p>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <p><%= user.phone || 'Not specified' %></p>
+          </div>
+        </div>
+        
+        <!-- In your profile.ejs, add this to the profile actions section -->
+<div class="profile-actions">
+  <a href="/order-history" class="cta-button">
+    <i class="fas fa-history"></i> Order History
+  </a>
+  <a href="/profile/edit" class="cta-button outline">
+    <i class="fas fa-user-edit"></i> Edit Profile
+  </a>
+  <a href="/logout" class="cta-button">
+    <i class="fas fa-sign-out-alt"></i> Logout
+  </a>
+</div>
+      <% } else { %>
+        <div class="not-logged-in">
+          <i class="fas fa-user-lock" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
+          <h2>Please Sign In</h2>
+          <p>You need to be logged in to view your profile</p>
+          <div style="margin-top: 2rem;">
+            <a href="/login" class="cta-button" style="margin-right: 1rem;">
+              <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+            <a href="/register" class="cta-button outline">
+              <i class="fas fa-user-plus"></i> Register
+            </a>
+          </div>
+        </div>
+      <% } %>
+    </section>
   </main>
-  <footer>
-    <p>&copy; 2025 IMPRESSIO. All rights reserved.</p>
+
+  <footer class="main-footer">
+    <div class="footer-container">
+      <p class="copyright">&copy; 2025 Impr3ssio. All rights reserved.</p>
+    </div>
   </footer>
 </body>
 </html>
