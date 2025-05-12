@@ -8,8 +8,20 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const flash = require('connect-flash');
-// At the TOP of your app.js with other requires:
+const nodemailer = require('nodemailer');
+const dotenv = require('dotenv');
+const Order = require('./models/Order'); 
 
+// Load environment variables FIRST
+dotenv.config();
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
 require('dotenv').config();
 const Razorpay = require('razorpay');
 (async () => {
@@ -17,7 +29,6 @@ const Razorpay = require('razorpay');
 })();
 const fs = require('fs');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
@@ -28,9 +39,6 @@ const userSchema = new mongoose.Schema({
   name: { type: String },
   // ... other fields (address, phone, etc.)
 });
-// Load environment variables
-dotenv.config();
-
 
 // Initialize Express
 const app = express();
@@ -310,14 +318,21 @@ app.post('/create-order', ensureAuthenticated, async (req, res) => {
 
 app.post('/checkout', ensureAuthenticated, async (req, res) => {
   const { name, email, address, phone } = req.body;
+  
   try {
+    // Validate required fields
+    if (!name || !email || !address || !phone) {
+      req.flash('error', 'All fields are required');
+      return res.redirect('/checkout');
+    }
+
     const cart = await Cart.findOne({ userId: req.user._id });
     if (!cart || cart.items.length === 0) {
       req.flash('error', 'No items in cart.');
       return res.redirect('/cart');
     }
 
-    // Save order details
+    // Save the order
     const order = new Order({
       userId: req.user._id,
       name,
@@ -325,24 +340,68 @@ app.post('/checkout', ensureAuthenticated, async (req, res) => {
       address,
       phone,
       totalPrice: cart.totalPrice,
-      items: cart.items,
+      items: cart.items
     });
     await order.save();
 
-    // Debugging: Log the saved order
-    console.log('Order saved:', order);
+    // Build email message
+    let message = `<h2>Thank you for your order, ${name || 'Customer'}!</h2>`;
+    message += `<p><strong>Order Summary:</strong></p><ul>`;
 
-    req.flash('success', `Order placed successfully! Total Price: ₹${cart.totalPrice.toFixed(2)}`);
+    cart.items.forEach((item, i) => {
+      message += `
+        <li>
+          <strong>Item ${i + 1}</strong><br>
+          Filename: ${item.filename}<br>
+          Volume: ${item.volume.toFixed(2)} cm³<br>
+          Quantity: ${item.quantity || 1}<br>
+          Material: ${item.material}<br>
+          Price: ₹${item.price.toFixed(2)}
+        </li><br>
+      `;
+    });
+
+    message += `</ul>`;
+    message += `<p><strong>Total Price:</strong> ₹${cart.totalPrice.toFixed(2)}</p>`;
+    message += `<p><strong>Delivery Address:</strong><br>${address}<br>Phone: ${phone}</p>`;
+
+    // Verify transporter connection first
+    await transporter.verify();
+
+    // Send email with error handling
+    const mailOptions = {
+      from: `"IMPR3SSIO" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: "IMPR3SSIO - Your Order Confirmation",
+      html: message
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent:', info.messageId);
+
+    // Clear cart
+    await Cart.findOneAndUpdate(
+      { userId: req.user._id },
+      { $set: { items: [], totalPrice: 0 } }
+    );
+
+    req.flash('success', 'Order placed successfully! Email sent.');
     res.redirect('/');
   } catch (error) {
-    console.error('Error during checkout:', error);
-    req.flash('error', 'Error during checkout. Please try again.');
+    console.error('Checkout Error:', error);
+    
+    let errorMessage = 'Checkout failed. Please try again.';
+    if (error.code === 'EAUTH') {
+      errorMessage = 'Email authentication failed. Please contact support.';
+    } else if (error.responseCode === 535) {
+      errorMessage = 'Email server rejected login. Please contact support.';
+    }
+    
+    req.flash('error', errorMessage);
     res.redirect('/cart');
   }
 });
-const Order = require('./models/Order'); // Make sure you have this model
 
-// Add this with your other routes
 app.get('/orders', ensureAuthenticated, async (req, res) => {
   try {
     const orders = await Order.find({ userId: req.user._id })
@@ -600,28 +659,6 @@ app.post('/profile/edit', ensureAuthenticated, async (req, res) => {
   }
 });
 app.use(express.static('public'));
-// Add to your existing app.js
-const nodemailer = require('nodemailer');
-
-// Configure email transporter (example using Gmail)
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
-
-
-
-// Configure email transporter ONCE at the top level
-const mailTransporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
 
 // Then later in your routes:
 app.post('/contact', async (req, res) => {
@@ -635,7 +672,7 @@ app.post('/contact', async (req, res) => {
 
   try {
     // Email to admin
-    await mailTransporter.sendMail({
+    await transporter.sendMail({
       from: `"${name}" <${email}>`,
       to: process.env.ADMIN_EMAIL,
       subject: subject || `New message from ${name}`,
@@ -650,7 +687,7 @@ app.post('/contact', async (req, res) => {
     });
 
     // Confirmation to user
-    await mailTransporter.sendMail({
+    await transporter.sendMail({
       from: `"IMPR3SSIO Support" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: 'We received your message!',

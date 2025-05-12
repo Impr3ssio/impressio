@@ -1,42 +1,10 @@
 [
   {
     "_id": {
-      "$oid": "67eaca325a21d4a1b42a16e9"
+      "$oid": "680eac2e425cfed6a6db09e6"
     },
     "userId": {
-      "$oid": "67eaca245a21d4a1b42a16e0"
-    },
-    "items": [
-      {
-        "filename": "EyeHolderV1.stl",
-        "volume": 0.5000819066144578,
-        "price": 2.480406256807711,
-        "quantity": 2,
-        "material": "PLA",
-        "_id": {
-          "$oid": "67f5661e633e366c052941fb"
-        }
-      },
-      {
-        "filename": "BatCat_Mask.stl",
-        "volume": 42.287918894756196,
-        "price": 209.74807771799072,
-        "quantity": 1,
-        "material": "TPU",
-        "_id": {
-          "$oid": "67f5687d19320eb27ffb07b1"
-        }
-      }
-    ],
-    "totalPrice": 214.70889023160612,
-    "__v": 8
-  },
-  {
-    "_id": {
-      "$oid": "67f69075fdd3b3ef4decf390"
-    },
-    "userId": {
-      "$oid": "67f69054fdd3b3ef4decf387"
+      "$oid": "680eab8bb416da7a97da1ede"
     },
     "items": [
       {
@@ -46,31 +14,14 @@
         "quantity": 1,
         "material": "PLA",
         "_id": {
-          "$oid": "67f69076fdd3b3ef4decf391"
-        }
-      },
-      {
-        "filename": "EyeTo NoseV5.stl",
-        "volume": 8.285610939604982,
-        "price": 41.09663026044071,
-        "quantity": 1,
-        "material": "PLA",
-        "_id": {
-          "$oid": "67f6907efdd3b3ef4decf39a"
-        }
-      },
-      {
-        "filename": "EyeHolderV1.stl",
-        "volume": 0.5000819066144578,
-        "price": 2.480406256807711,
-        "quantity": 1,
-        "material": "PLA",
-        "_id": {
-          "$oid": "67f6907efdd3b3ef4decf39b"
+          "$oid": "680eab9db416da7a97da1ee5"
         }
       }
     ],
-    "totalPrice": 253.32511423523914,
-    "__v": 1
+    "totalPrice": 209.74807771799072,
+    "__v": 0,
+    "copiedAt": {
+      "$date": "2025-04-27T22:14:06.411Z"
+    }
   }
 ]
