@@ -220,7 +220,7 @@
       
       <% if (orders.length > 0) { %>
         <div class="order-cards">
-          <% orders.forEach(order => { %>
+          <% orders.filter(order => order.status === 'Completed').forEach(order => { %>
             <div class="order-card">
               <div class="order-header">
                 <div>
