@@ -729,5 +729,4 @@ app.get('/contact', (req, res) => {
   });
 });
 // Start the server
-const serverless = require('serverless-http');
-module.exports = serverless(app);
+module.exports = app;
