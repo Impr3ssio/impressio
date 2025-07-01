@@ -716,6 +716,5 @@ app.get('/contact', (req, res) => {
   });
 });
 // Start the server
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+const serverless = require('serverless-http');
+module.exports = serverless(app);
