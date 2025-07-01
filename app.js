@@ -139,13 +139,29 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+// Use Vercel-compatible writable temp directory
+const uploadDir = '/tmp/uploads';
+
+// Ensure the upload directory exists
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
 });
 
-// Initialize multer with the storage configuration
 const upload = multer({ storage });
+
 
 // Razorpay setup
 const razorpay = new Razorpay({
