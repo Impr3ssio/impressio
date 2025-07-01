@@ -139,9 +139,6 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 
 // Use Vercel-compatible writable temp directory
 const uploadDir = '/tmp/uploads';
